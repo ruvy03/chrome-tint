@@ -4,19 +4,137 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chrome Tint</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        width: 300px;
+        background-color: #f5f5f5;
+        color: #333;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        margin-top: 0;
+        font-size: 22px;
+        color: #444;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      label {
+        font-weight: 600;
+        color: #555;
+      }
+
+      input[type="color"] {
+        width: 100%;
+        height: 40px;
+        cursor: pointer;
+        border: none;
+        background: none;
+      }
+
+      .slider-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .slider-info {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      input[type="range"] {
+        width: 100%;
+        height: 8px;
+        cursor: pointer;
+      }
+
+      .preview {
+        height: 60px;
+        margin-top: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        font-weight: bold;
+      }
+
+      .button {
+        background-color: #4285f4;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.2s;
+      }
+
+      .button:hover {
+        background-color: #3367d6;
+      }
+
+      .status {
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+        margin-top: 5px;
+      }
+    </style>
   </head>
   <body>
-    <label for="tint-color">Pick the color of the tint:</label>
-    <input type="color" id="tint-color" value="#FF9D23" />
-    <label for="tint-strength">Pick the strength of the tint</label>
-    <input
-      type="range"
-      id="tint-strength"
-      min="0"
-      max="1"
-      step="0.05"
-      value="0.2"
-    />
+    <div class="container">
+      <h1>Chrome Tint</h1>
+
+      <div class="control-group">
+        <label for="tint-color">Tint Color:</label>
+        <input type="color" id="tint-color" value="#FF9D23" />
+      </div>
+
+      <div class="control-group">
+        <div class="slider-container">
+          <div class="slider-info">
+            <label for="tint-strength">Tint Opacity:</label>
+            <span id="strength-value">20%</span>
+          </div>
+          <input
+            type="range"
+            id="tint-strength"
+            min="0"
+            max="1"
+            step="0.05"
+            value="0.2"
+          />
+        </div>
+      </div>
+
+      <div class="preview" id="tint-preview">Preview</div>
+
+      <button class="button" id="apply-button">Apply Tint</button>
+
+      <div class="status" id="status">Changes will apply to all tabs</div>
+    </div>
 
     <script src="popup.js"></script>
   </body>
