@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "Chrome Tint",
+    "version": "1.0",
+    "description": "Applies a color tint to the chrome screen.",
+    "permissions": ["storage"],
+    "action": {
+      "default_popup": "popup.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content.js"],
+        "run_at": "document_start"
+      }
+    ],
+    "options_page": "options.html"
+  }
+  

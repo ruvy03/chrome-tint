@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chrome Tint</title>
+  </head>
+  <body>
+    <label for="tint-color">Pick the color of the tint:</label>
+    <input type="color" id="tint-color" value="#FF9D23" />
+    <label for="tint-strength">Pick the strength of the tint</label>
+    <input
+      type="range"
+      id="tint-strength"
+      min="0"
+      max="1"
+      step="0.05"
+      value="0.2"
+    />
+
+    <script src="popup.js"></script>
+  </body>
+</html>
