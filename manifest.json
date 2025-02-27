@@ -3,7 +3,11 @@
     "name": "Chrome Tint",
     "version": "1.0",
     "description": "Applies a color tint to your browser screen.",
-    "permissions": ["storage", "activeTab"],
+    "permissions": ["storage", "activeTab", "tabs", "scripting"],
+    "host_permissions": ["<all_urls>"],
+    "background": {
+      "service_worker": "background.js"
+    },
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
