@@ -21,3 +21,9 @@ chrome.storage.sync.get(["color", "strength"], (data) => {
   const strength = data.strength || 0.2;
   applyTint(color, strength);
 });
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "sync" && changes.color && changes.strength) {
+    applyTint(changes.color.newValue, changes.strength.newValue);
+  }
+});
