@@ -15,3 +15,9 @@ function applyTint(color, strength) {
   tintDiv.style.backgroundColor = color;
   tintDiv.style.opacity = strength;
 }
+
+chrome.storage.sync.get(["color", "strength"], (data) => {
+  const color = data.color || "#FF9D23";
+  const strength = data.strength || 0.2;
+  applyTint(color, strength);
+});
