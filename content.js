@@ -1,10 +1,9 @@
 // Create the tint element as soon as the script loads
 let tintDiv;
 
-function applyTint(color, strength) {
+function applyTint(color, strength, enabled = true) {
   if (!tintDiv) {
     tintDiv = document.createElement("div");
-    tintDiv.id = "chrome-tint-overlay";
     tintDiv.style.pointerEvents = "none";
     tintDiv.style.position = "fixed";
     tintDiv.style.top = "0";
@@ -15,15 +14,28 @@ function applyTint(color, strength) {
     document.documentElement.appendChild(tintDiv);
   }
 
-  tintDiv.style.backgroundColor = color;
-  tintDiv.style.opacity = strength;
+  if (!enabled || strength === 0) {
+    tintDiv.style.display = "none";
+  } else {
+    tintDiv.style.display = "block";
+    tintDiv.style.backgroundColor = color;
+    tintDiv.style.opacity = strength;
+  }
 }
 
-// Apply tint immediately when page loads
-chrome.storage.sync.get(["color", "strength"], (data) => {
+chrome.storage.sync.get(["color", "strength", "enabled"], (data) => {
   const color = data.color || "#FF9D23";
-  const strength = data.strength || 0;
-  applyTint(color, strength);
+  const strength = data.strength || 0.2;
+  const enabled = data.enabled !== undefined ? data.enabled : true;
+  applyTint(color, strength, enabled);
+});
+
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "sync") {
+    chrome.storage.sync.get(["color", "strength", "enabled"], (data) => {
+      applyTint(data.color, data.strength, data.enabled);
+    });
+  }
 });
 
 // Listen for direct messages from popup
