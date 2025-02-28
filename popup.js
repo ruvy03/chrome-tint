@@ -8,7 +8,7 @@ const statusText = document.getElementById("status");
 // Load saved settings when popup opens
 chrome.storage.sync.get(["color", "strength"], (data) => {
   const color = data.color || "#FF9D23";
-  const strength = data.strength || 0.2;
+  const strength = data.strength || 0;
 
   tintColor.value = color;
   tintStrength.value = strength;

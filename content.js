@@ -22,7 +22,7 @@ function applyTint(color, strength) {
 // Apply tint immediately when page loads
 chrome.storage.sync.get(["color", "strength"], (data) => {
   const color = data.color || "#FF9D23";
-  const strength = data.strength || 0.2;
+  const strength = data.strength || 0;
   applyTint(color, strength);
 });
 
@@ -53,7 +53,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
       chrome.storage.sync.get(["color", "strength"], (data) => {
         applyTint(
           color !== undefined ? color : data.color || "#FF9D23",
-          strength !== undefined ? strength : data.strength || 0.2
+          strength !== undefined ? strength : data.strength || 0
         );
       });
     } else {
@@ -66,7 +66,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 document.addEventListener("DOMContentLoaded", () => {
   chrome.storage.sync.get(["color", "strength"], (data) => {
     const color = data.color || "#FF9D23";
-    const strength = data.strength || 0.2;
+    const strength = data.strength || 0;
     applyTint(color, strength);
   });
 });

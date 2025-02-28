@@ -24,7 +24,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true;
 });
 
-// Make sure content script runs on all tabs when extension is installed or updated
 chrome.runtime.onInstalled.addListener(() => {
   chrome.tabs.query({}, (tabs) => {
     tabs.forEach((tab) => {
