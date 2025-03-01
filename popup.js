@@ -7,17 +7,15 @@ const statusText = document.getElementById("status");
 document.addEventListener("DOMContentLoaded", () => {
   const tintSwitch = document.getElementById("tint-switch");
 
-  // Load saved state
   chrome.storage.sync.get(["enabled"], (data) => {
     tintSwitch.checked = data.enabled !== undefined ? data.enabled : true;
   });
 
-  // Handle switch changes
   tintSwitch.addEventListener("change", () => {
     chrome.storage.sync.set({ enabled: tintSwitch.checked });
+    updatePreview(); // Update the preview when the switch changes
   });
 
-  // Load saved settings when popup opens
   chrome.storage.sync.get(["color", "strength"], (data) => {
     const color = data.color || "#FF9D23";
     const strength = data.strength || 0;
@@ -35,19 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
     updatePreview();
   });
 
-  // Apply settings and update immediately via background script
   applyButton.addEventListener("click", () => {
     const color = tintColor.value;
     const strength = parseFloat(tintStrength.value);
+    const enabled = tintSwitch.checked; // Get current toggle state
 
     // Save to storage first
-    chrome.storage.sync.set({ color, strength }, () => {
+    chrome.storage.sync.set({ color, strength, enabled }, () => {
       // Then communicate with the background script to update all tabs
       chrome.runtime.sendMessage(
         {
           action: "updateAllTabs",
           color: color,
           strength: strength,
+          enabled: enabled, // Add enabled state
         },
         () => {
           // Also send a message to the current tab directly for immediate effect
@@ -58,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
                   action: "updateTint",
                   color: color,
                   strength: strength,
+                  enabled: enabled, // Add enabled state
                 })
                 .catch(() => {
                   // Ignore errors if content script isn't loaded
@@ -76,6 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updatePreview() {
     tintPreview.style.backgroundColor = tintColor.value;
-    tintPreview.style.opacity = tintStrength.value;
+    tintPreview.style.opacity = tintSwitch.checked ? tintStrength.value : 0; // Consider enabled state
   }
 });

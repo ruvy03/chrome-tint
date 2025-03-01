@@ -1,7 +1,6 @@
 // Handle messages from popup.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "updateAllTabs") {
-    // Update all tabs with new tint settings
     chrome.tabs.query({}, (tabs) => {
       tabs.forEach((tab) => {
         try {
@@ -10,13 +9,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
               action: "updateTint",
               color: message.color,
               strength: message.strength,
+              enabled: message.enabled, // Add enabled state
             })
-            .catch(() => {
-              // Ignore errors for tabs where content script isn't running
-            });
-        } catch (e) {
-          // Ignore errors for restricted tabs
-        }
+            .catch(() => {});
+        } catch (e) {}
       });
     });
     sendResponse({ success: true });
@@ -33,9 +29,7 @@ chrome.runtime.onInstalled.addListener(() => {
             target: { tabId: tab.id },
             files: ["content.js"],
           });
-        } catch (e) {
-          // Ignore errors for restricted tabs
-        }
+        } catch (e) {}
       }
     });
   });

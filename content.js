@@ -41,7 +41,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 // Listen for direct messages from popup
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "updateTint") {
-    applyTint(message.color, message.strength);
+    applyTint(message.color, message.strength, message.enabled);
     sendResponse({ success: true });
   }
   return true; // Keep the message channel open for async responses
