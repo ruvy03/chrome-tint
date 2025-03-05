@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chrome Tint</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -11,7 +15,7 @@
       <h1>Chrome Tint</h1>
 
       <div class="toggle-container">
-        <label for="tint-switch">Enable Tint:</label>
+        <label for="tint-switch">Enable Tint</label>
         <label class="switch">
           <input type="checkbox" id="tint-switch" checked />
           <span class="slider round"></span>
@@ -19,21 +23,45 @@
       </div>
 
       <div class="color-presets">
-        <div class="preset-color" data-color="#FFC87C"></div>
-        <div class="preset-color" data-color="#FFB347"></div>
-        <div class="preset-color" data-color="#FFDAB9"></div>
-        <div class="preset-color" data-color="#FFD700"></div>
-        <div class="preset-color" data-color="#F4A460"></div>
-        <div class="preset-color" data-color="#FFB300"></div>
+        <div
+          class="preset-color"
+          data-color="#FFC87C"
+          style="background-color: #ffc87c"
+        ></div>
+        <div
+          class="preset-color"
+          data-color="#FFB347"
+          style="background-color: #ffb347"
+        ></div>
+        <div
+          class="preset-color"
+          data-color="#FFDAB9"
+          style="background-color: #ffdab9"
+        ></div>
+        <div
+          class="preset-color"
+          data-color="#FFD700"
+          style="background-color: #ffd700"
+        ></div>
+        <div
+          class="preset-color"
+          data-color="#F4A460"
+          style="background-color: #f4a460"
+        ></div>
+        <div
+          class="preset-color"
+          data-color="#FFB300"
+          style="background-color: #ffb300"
+        ></div>
       </div>
 
       <div class="color-controls">
-        <label for="tint-color">Custom Color:</label>
+        <label for="tint-color">Custom Color</label>
         <input type="color" id="tint-color" value="#FFC87C" />
 
         <div class="slider-container">
           <div class="slider-info">
-            <label for="tint-strength">Tint Opacity:</label>
+            <label for="tint-strength">Tint Opacity</label>
             <span id="strength-value">20%</span>
           </div>
           <input

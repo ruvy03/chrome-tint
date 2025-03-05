@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const tintColor = document.getElementById("tint-color");
   const tintStrength = document.getElementById("tint-strength");
   const strengthValue = document.getElementById("strength-value");
-  const tintPreview = document.getElementById("tint-preview");
   const statusText = document.getElementById("status");
   const presetColors = document.querySelectorAll(".preset-color");
 
@@ -17,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load initial state
   chrome.storage.sync.get(["enabled", "color", "strength"], (data) => {
     const enabled = data.enabled !== undefined ? data.enabled : true;
-    const color = data.color || "#2C3E50";
+    const color = data.color || "#FFC87C";
     const strength = data.strength || 0.2;
 
     tintSwitch.checked = enabled;
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tintColor.value = color;
     tintStrength.value = strength;
     strengthValue.textContent = `${Math.round(strength * 100)}%`;
-    updatePreview();
   });
 
   // Toggle switch event
@@ -56,12 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTint();
   });
 
-  // Update preview function
-  function updatePreview() {
-    tintPreview.style.backgroundColor = tintColor.value;
-    tintPreview.style.opacity = tintSwitch.checked ? tintStrength.value : 0;
-  }
-
   // Update tint function
   function updateTint() {
     const color = tintColor.value;
@@ -87,17 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       // Update all tabs
-      chrome.runtime.sendMessage(
-        {
-          action: "updateAllTabs",
-          color: color,
-          strength: strength,
-          enabled: enabled,
-        },
-        () => {
-          updatePreview();
-        }
-      );
+      chrome.runtime.sendMessage({
+        action: "updateAllTabs",
+        color: color,
+        strength: strength,
+        enabled: enabled,
+      });
     });
   }
 });
