@@ -10,52 +10,46 @@
     <div class="container">
       <h1>Chrome Tint</h1>
 
-      <div class="control-group">
-        <div class="toggle-container">
-          <label for="tint-switch">Enable Tint:</label>
-          <label class="switch">
-            <input type="checkbox" id="tint-switch" checked />
-            <span class="slider round"></span>
-          </label>
-        </div>
+      <div class="toggle-container">
+        <label for="tint-switch">Enable Tint:</label>
+        <label class="switch">
+          <input type="checkbox" id="tint-switch" checked />
+          <span class="slider round"></span>
+        </label>
       </div>
 
-      <div class="tint-controls">
-        <div class="color-presets">
-          <div class="preset-color" data-color="#FFF5E1">Warm Paper</div>
-          <div class="preset-color" data-color="#E6F2FF">Soft Blue</div>
-          <div class="preset-color" data-color="#F0F4F0">Sage Green</div>
-          <div class="preset-color" data-color="#F5E6D3">Sepia</div>
-          <div class="preset-color" data-color="#E1F5FE">Cool Blue</div>
-          <div class="preset-color" data-color="#F3E5F5">Lavender</div>
-        </div>
+      <div class="color-presets">
+        <div class="preset-color" data-color="#FFC87C"></div>
+        <div class="preset-color" data-color="#FFB347"></div>
+        <div class="preset-color" data-color="#FFDAB9"></div>
+        <div class="preset-color" data-color="#FFD700"></div>
+        <div class="preset-color" data-color="#F4A460"></div>
+        <div class="preset-color" data-color="#FFB300"></div>
+      </div>
 
-        <div class="control-group">
-          <label for="tint-color">Custom Color:</label>
-          <input type="color" id="tint-color" value="#FF9D23" />
-        </div>
+      <div class="color-controls">
+        <label for="tint-color">Custom Color:</label>
+        <input type="color" id="tint-color" value="#FFC87C" />
 
-        <div class="control-group">
-          <div class="slider-container">
-            <div class="slider-info">
-              <label for="tint-strength">Tint Opacity:</label>
-              <span id="strength-value">20%</span>
-            </div>
-            <input
-              type="range"
-              id="tint-strength"
-              min="0"
-              max="1"
-              step="0.05"
-              value="0.2"
-            />
+        <div class="slider-container">
+          <div class="slider-info">
+            <label for="tint-strength">Tint Opacity:</label>
+            <span id="strength-value">20%</span>
           </div>
+          <input
+            type="range"
+            id="tint-strength"
+            min="0"
+            max="1"
+            step="0.05"
+            value="0.2"
+          />
         </div>
 
         <div class="preview" id="tint-preview">Preview</div>
       </div>
 
-      <div class="status" id="status">Changes will apply to all tabs</div>
+      <div class="status" id="status"></div>
     </div>
 
     <script src="popup.js"></script>

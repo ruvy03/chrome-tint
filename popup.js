@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const tintSwitch = document.getElementById("tint-switch");
-  const tintControls = document.querySelector(".tint-controls");
+  const colorControls = document.querySelector(".color-controls");
   const tintColor = document.getElementById("tint-color");
   const tintStrength = document.getElementById("tint-strength");
   const strengthValue = document.getElementById("strength-value");
@@ -8,14 +8,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusText = document.getElementById("status");
   const presetColors = document.querySelectorAll(".preset-color");
 
+  // Set preset color backgrounds
+  presetColors.forEach((preset) => {
+    const color = preset.getAttribute("data-color");
+    preset.style.backgroundColor = color;
+  });
+
   // Load initial state
   chrome.storage.sync.get(["enabled", "color", "strength"], (data) => {
     const enabled = data.enabled !== undefined ? data.enabled : true;
-    const color = data.color || "#FF9D23";
+    const color = data.color || "#2C3E50";
     const strength = data.strength || 0.2;
 
     tintSwitch.checked = enabled;
-    tintControls.classList.toggle("hidden", !enabled);
+    colorControls.style.opacity = enabled ? "1" : "0.3";
+    colorControls.style.pointerEvents = enabled ? "auto" : "none";
     tintColor.value = color;
     tintStrength.value = strength;
     strengthValue.textContent = `${Math.round(strength * 100)}%`;
@@ -25,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Toggle switch event
   tintSwitch.addEventListener("change", () => {
     const enabled = tintSwitch.checked;
-    tintControls.classList.toggle("hidden", !enabled);
+    colorControls.style.opacity = enabled ? "1" : "0.3";
+    colorControls.style.pointerEvents = enabled ? "auto" : "none";
 
     chrome.storage.sync.set({ enabled }, () => {
       updateTint();
@@ -88,10 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         () => {
           updatePreview();
-          statusText.textContent = "Changes applied to all tabs";
-          setTimeout(() => {
-            statusText.textContent = "Changes will apply to all tabs";
-          }, 2000);
         }
       );
     });
