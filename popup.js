@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   tintSwitch.addEventListener("change", () => {
     chrome.storage.sync.set({ enabled: tintSwitch.checked });
-    updatePreview(); // Update the preview when the switch changes
+    updatePreview();
   });
 
   chrome.storage.sync.get(["color", "strength"], (data) => {

@@ -1,4 +1,3 @@
-// Handle messages from popup.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "updateAllTabs") {
     chrome.tabs.query({}, (tabs) => {
@@ -9,7 +8,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
               action: "updateTint",
               color: message.color,
               strength: message.strength,
-              enabled: message.enabled, // Add enabled state
+              enabled: message.enabled,
             })
             .catch(() => {});
         } catch (e) {}
