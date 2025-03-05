@@ -9,6 +9,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
               color: message.color,
               strength: message.strength,
               enabled: message.enabled,
+              darkness: message.darkness,
+              originalColor: message.originalColor,
             })
             .catch(() => {});
         } catch (e) {}

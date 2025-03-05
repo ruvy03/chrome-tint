@@ -23,18 +23,43 @@ function applyTint(color, strength, enabled = true) {
   }
 }
 
-chrome.storage.sync.get(["color", "strength", "enabled"], (data) => {
-  const color = data.color || "#FF9D23";
-  const strength = data.strength || 0.2;
-  const enabled = data.enabled !== undefined ? data.enabled : true;
-  applyTint(color, strength, enabled);
-});
+chrome.storage.sync.get(
+  ["color", "strength", "enabled", "darkness", "originalColor"],
+  (data) => {
+    const color = data.color || "#FF9D23";
+    const strength = data.strength || 0.2;
+    const enabled = data.enabled !== undefined ? data.enabled : true;
+    const darkness = data.darkness || 0;
+    const originalColor = data.originalColor || color;
+
+    let finalColor = color;
+    if (darkness > 0) {
+      finalColor = darkenColor(originalColor, darkness);
+    }
+
+    applyTint(finalColor, strength, enabled);
+  }
+);
 
 chrome.storage.onChanged.addListener((changes, area) => {
   if (area === "sync") {
-    chrome.storage.sync.get(["color", "strength", "enabled"], (data) => {
-      applyTint(data.color, data.strength, data.enabled);
-    });
+    chrome.storage.sync.get(
+      ["color", "strength", "enabled", "darkness", "originalColor"],
+      (data) => {
+        const color = data.color || "#FF9D23";
+        const strength = data.strength || 0.2;
+        const enabled = data.enabled !== undefined ? data.enabled : true;
+        const darkness = data.darkness || 0;
+        const originalColor = data.originalColor || color;
+
+        let finalColor = color;
+        if (darkness > 0) {
+          finalColor = darkenColor(originalColor, darkness);
+        }
+
+        applyTint(finalColor, strength, enabled);
+      }
+    );
   }
 });
 
@@ -51,3 +76,17 @@ window.addEventListener("load", () => {
     document.body.appendChild(tintDiv);
   }
 });
+
+function darkenColor(color, darknessLevel) {
+  let r = parseInt(color.slice(1, 3), 16);
+  let g = parseInt(color.slice(3, 5), 16);
+  let b = parseInt(color.slice(5, 7), 16);
+
+  r = Math.round(r * (1 - darknessLevel));
+  g = Math.round(g * (1 - darknessLevel));
+  b = Math.round(b * (1 - darknessLevel));
+
+  return `#${r.toString(16).padStart(2, "0")}${g
+    .toString(16)
+    .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+}
