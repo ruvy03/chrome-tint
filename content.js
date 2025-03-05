@@ -1,6 +1,4 @@
-if (enabled) {
-  let tintDiv;
-}
+let tintDiv;
 
 function applyTint(color, strength, enabled = true) {
   if (!tintDiv) {
@@ -12,6 +10,7 @@ function applyTint(color, strength, enabled = true) {
     tintDiv.style.width = "100%";
     tintDiv.style.height = "100%";
     tintDiv.style.zIndex = "999999";
+    tintDiv.style.transition = "opacity 0.3s ease";
     document.documentElement.appendChild(tintDiv);
   }
 
@@ -45,39 +44,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ success: true });
   }
   return true;
-});
-
-chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === "sync") {
-    let color, strength;
-
-    if (changes.color && changes.color.newValue) {
-      color = changes.color.newValue;
-    }
-
-    if (changes.strength && changes.strength.newValue !== undefined) {
-      strength = changes.strength.newValue;
-    }
-
-    if (color === undefined || strength === undefined) {
-      chrome.storage.sync.get(["color", "strength"], (data) => {
-        applyTint(
-          color !== undefined ? color : data.color || "#FF9D23",
-          strength !== undefined ? strength : data.strength || 0
-        );
-      });
-    } else {
-      applyTint(color, strength);
-    }
-  }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  chrome.storage.sync.get(["color", "strength"], (data) => {
-    const color = data.color || "#FF9D23";
-    const strength = data.strength || 0;
-    applyTint(color, strength);
-  });
 });
 
 window.addEventListener("load", () => {
