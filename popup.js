@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const tintSwitch = document.getElementById("tint-switch");
   const colorControls = document.querySelector(".color-controls");
+  const container = document.querySelector(".container");
   const tintColor = document.getElementById("tint-color");
   const tintStrength = document.getElementById("tint-strength");
   const strengthValue = document.getElementById("strength-value");
@@ -20,18 +21,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const strength = data.strength || 0.2;
 
     tintSwitch.checked = enabled;
-    colorControls.style.opacity = enabled ? "1" : "0.3";
-    colorControls.style.pointerEvents = enabled ? "auto" : "none";
+    updateContainerState(enabled);
     tintColor.value = color;
     tintStrength.value = strength;
     strengthValue.textContent = `${Math.round(strength * 100)}%`;
   });
 
+  // Function to update container state
+  function updateContainerState(enabled) {
+    if (enabled) {
+      container.classList.remove("collapsed");
+      colorControls.style.opacity = "1";
+      colorControls.style.pointerEvents = "auto";
+    } else {
+      container.classList.add("collapsed");
+      colorControls.style.opacity = "0.3";
+      colorControls.style.pointerEvents = "none";
+    }
+  }
+
   // Toggle switch event
   tintSwitch.addEventListener("change", () => {
     const enabled = tintSwitch.checked;
-    colorControls.style.opacity = enabled ? "1" : "0.3";
-    colorControls.style.pointerEvents = enabled ? "auto" : "none";
+    updateContainerState(enabled);
 
     chrome.storage.sync.set({ enabled }, () => {
       updateTint();

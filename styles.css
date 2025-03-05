@@ -174,3 +174,31 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/* Add these styles to your existing CSS */
+.container {
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+  max-height: 500px; /* Adjust based on your content height */
+  overflow: hidden;
+}
+
+.container.collapsed {
+  max-height: 70px; /* Height when only the toggle is visible */
+  padding-bottom: 0;
+}
+
+.container.collapsed .color-presets,
+.container.collapsed .color-controls,
+.container.collapsed .status {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s;
+}
+
+.color-presets,
+.color-controls,
+.status {
+  transition: opacity 0.2s ease-in-out, visibility 0.2s;
+  opacity: 1;
+  visibility: visible;
+}
