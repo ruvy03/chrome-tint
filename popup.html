@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chrome Tint</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -18,7 +18,7 @@
         <label for="tint-switch">Enable Tint</label>
         <label class="switch">
           <input type="checkbox" id="tint-switch" checked />
-          <span class="slider round"></span>
+          <span class="slider"></span>
         </label>
       </div>
 
@@ -27,37 +27,51 @@
           class="preset-color"
           data-color="#FFC87C"
           style="background-color: #ffc87c"
+          title="Warm Orange"
+          tabindex="0"
         ></div>
         <div
           class="preset-color"
           data-color="#FFB347"
           style="background-color: #ffb347"
+          title="Peach"
+          tabindex="0"
         ></div>
         <div
           class="preset-color"
           data-color="#FFDAB9"
           style="background-color: #ffdab9"
+          title="Soft Peach"
+          tabindex="0"
         ></div>
         <div
           class="preset-color"
           data-color="#FFD700"
           style="background-color: #ffd700"
+          title="Gold"
+          tabindex="0"
         ></div>
         <div
           class="preset-color"
           data-color="#F4A460"
           style="background-color: #f4a460"
+          title="Sandy Brown"
+          tabindex="0"
         ></div>
         <div
           class="preset-color"
           data-color="#FFB300"
           style="background-color: #ffb300"
+          title="Amber"
+          tabindex="0"
         ></div>
       </div>
 
       <div class="color-controls">
-        <label for="tint-color">Custom Color &#x2193;</label>
-        <input type="color" id="tint-color" value="#FFC87C" />
+        <div class="color-input-container">
+          <label for="tint-color">Custom Color</label>
+          <input type="color" id="tint-color" value="#FFC87C" />
+        </div>
 
         <div class="slider-container">
           <div class="slider-info">
@@ -71,6 +85,7 @@
             max="1"
             step="0.05"
             value="0.2"
+            aria-label="Tint opacity percentage"
           />
         </div>
 
@@ -86,15 +101,20 @@
             max="1"
             step="0.05"
             value="0"
+            aria-label="Darkness percentage"
           />
         </div>
-        <div class="support">
-          <p>
-            <a href="http://buymeacoffee.com/dhruvs" target="_blank"
-              >Buy me a coffee.</a
-            >.
-          </p>
-        </div>
+      </div>
+
+      <div class="support">
+        <a
+          href="https://buymeacoffee.com/dhruvs"
+          target="_blank"
+          class="coffee-link"
+        >
+          <span class="coffee-emoji">☕</span>
+          <span>Buy me a coffee</span>
+        </a>
       </div>
 
       <div class="status" id="status"></div>

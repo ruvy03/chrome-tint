@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   );
 
-  // Toggle switch event
   tintSwitch.addEventListener("change", () => {
     const enabled = tintSwitch.checked;
     colorControls.style.opacity = enabled ? "1" : "0.3";
@@ -44,50 +43,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chrome.storage.sync.set({ enabled }, () => {
       updateTint();
+      showStatus(enabled ? "Tint enabled" : "Tint disabled");
     });
   });
 
-  // Preset colors event
   presetColors.forEach((preset) => {
     preset.addEventListener("click", () => {
       const color = preset.getAttribute("data-color");
       tintColor.value = color;
       updateTint();
+      showStatus(`Color changed to ${preset.title || color}`);
+    });
+
+    preset.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        preset.click();
+      }
     });
   });
 
-  // Color and strength change events
-  tintColor.addEventListener("input", updateTint);
+  tintColor.addEventListener("input", () => {
+    updateTint();
+    showStatus("Custom color applied");
+  });
+
   tintStrength.addEventListener("input", () => {
     strengthValue.textContent = `${Math.round(tintStrength.value * 100)}%`;
     updateTint();
   });
 
-  // Darkness slider event
   tintDarkness.addEventListener("input", () => {
     darknessValue.textContent = `${Math.round(tintDarkness.value * 100)}%`;
     updateTint();
   });
 
-  // Update tint function
   function updateTint() {
     const color = tintColor.value;
     const strength = parseFloat(tintStrength.value);
     const darkness = parseFloat(tintDarkness.value);
     const enabled = tintSwitch.checked;
 
-    // Store the original color in local storage when first selected
     chrome.storage.sync.get(["originalColor"], (data) => {
       const originalColor = data.originalColor || color;
 
-      // Apply darkness by darkening the color
       let finalColor = color;
       if (darkness > 0) {
         const darkenedColor = darkenColor(color, darkness);
         finalColor = darkenedColor;
       }
 
-      // Save to storage
       chrome.storage.sync.set(
         {
           color,
@@ -97,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
           originalColor,
         },
         () => {
-          // Update current tab
           chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             if (tabs[0]) {
               chrome.tabs
@@ -107,13 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
                   strength: strength,
                   enabled: enabled,
                 })
-                .catch(() => {
-                  // Ignore errors if content script isn't loaded
-                });
+                .catch(() => {});
             }
           });
 
-          // Update all tabs
           chrome.runtime.sendMessage({
             action: "updateAllTabs",
             color: finalColor,
@@ -138,4 +139,14 @@ document.addEventListener("DOMContentLoaded", () => {
       .toString(16)
       .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
   }
+
+  function showStatus(message) {
+    statusText.textContent = message;
+    statusText.style.opacity = "1";
+    setTimeout(() => {
+      statusText.style.opacity = "0";
+    }, 2000);
+  }
+
+  statusText.style.transition = "opacity 0.3s ease";
 });
